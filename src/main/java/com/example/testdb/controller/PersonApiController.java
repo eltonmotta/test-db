@@ -1,8 +1,7 @@
 package com.example.testdb.controller;
 
 import com.example.testdb.entity.Person;
-import com.example.testdb.repository.PersonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.testdb.service.PersonService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,18 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class PersonApiController {
 
 
-    @Autowired
-    private PersonRepository repository;
+    private final PersonService service;
+
+    public PersonApiController(PersonService service) {
+        this.service = service;
+    }
 
 
     @PostMapping("/persons")
     public Person create(@RequestBody Person person) {
-        return repository.save(person);
+        return service.create(person);
     }
 
     @GetMapping("/persons")
     public Iterable<Person> getAllPersons() {
-        return repository.findAll();
+        return service.getAllPersons();
     }
 
 }
